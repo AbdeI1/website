@@ -1,5 +1,9 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 export default function Home() {
-  return <Button variant="contained">Test</Button>;
+  return (
+    <Box component="div" className="flex justify-center">
+      <h1 className="text-9xl place-self-center">Abdelrahman Mokbel</h1>
+    </Box>
+  );
 }
