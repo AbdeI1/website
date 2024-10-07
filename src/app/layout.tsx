@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import "../css/globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
+import { CssBaseline } from "@mui/material";
+
+import "@/css/globals.css";
+import theme from "@/theme";
+
 import Header from "@/components/header/header";
-import theme from "../theme";
+import Footer from "@/components/footer/footer";
 
 const roboto = Roboto({
   weight: "400",
@@ -14,7 +18,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "",
+  title: "mokbel.dev",
   description: "Personal Website",
 };
 
@@ -22,15 +26,17 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={roboto.className}>
-      <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
+    <AppRouterCacheProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <html lang="en" className={roboto.className}>
+          <body>
             <Header />
             {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
+            <Footer />
+          </body>
+        </html>
+      </ThemeProvider>
+    </AppRouterCacheProvider>
   );
 }

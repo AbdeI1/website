@@ -1,12 +1,9 @@
-import { Box } from "@mui/material";
+import { AppBar, Toolbar } from "@mui/material";
 
 export default function Header() {
   return (
-    <Box
-      sx={{
-        p: 2,
-        background: "blue",
-      }}
-    ></Box>
+    <AppBar position="sticky">
+      <Toolbar></Toolbar>
+    </AppBar>
   );
 }
