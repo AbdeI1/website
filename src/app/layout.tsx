@@ -31,9 +31,9 @@ export default function RootLayout({
         <CssBaseline />
         <html lang="en" className={roboto.className}>
           <body>
-            <Header />
+            {/* <Header /> */}
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </body>
         </html>
       </ThemeProvider>
