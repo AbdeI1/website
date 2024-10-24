@@ -3,7 +3,18 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   colorSchemes: {
-    dark: true,
+    dark: {
+      palette: {
+        primary: {
+          main: "#d50000",
+          contrastText: "#000",
+        },
+        secondary: {
+          main: "#18ffff",
+          contrastText: "#000",
+        },
+      },
+    },
   },
   typography: {
     fontFamily: "var(--font-roboto)",
