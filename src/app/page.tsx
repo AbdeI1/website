@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import {
   Button,
   Container,
@@ -21,17 +25,35 @@ const fira_code = Fira_Code({
   variable: "--font-roboto-mono",
 });
 
+const TypeWriter : typeof Typography = ({ ... props }) => {
+  const text = props.children as string;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => {
+        if (prevIndex === text.length - 1) {
+          clearInterval(interval);
+        }
+        return prevIndex + 1;
+      });
+    }, Math.random() * 100 + 100);
+    return () => clearInterval(interval);
+  }, [ text ]);
+
+  return <Typography { ... props }>{text.slice(0, index)}</Typography>;
+}
+
 export default function Home() {
   return (
     <Stack spacing={8} className="h-screen justify-center">
-      <Typography
+      <TypeWriter 
         variant="h1"
         className="text-center"
         color="primary"
-        fontFamily={fira_code.style.fontFamily}
-      >
+        fontFamily={fira_code.style.fontFamily}>
         Abdelrahman Mokbel
-      </Typography>
+      </TypeWriter>
       <Stack
         direction="row"
         spacing={2}
