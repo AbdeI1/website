@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "gh-pages -d out --remote build"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
@@ -16,6 +17,7 @@
     "@mui/icons-material": "^6.1.2",
     "@mui/material": "^6.1.2",
     "@mui/material-nextjs": "^6.1.2",
+    "gh-pages": "^6.2.0",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18"
