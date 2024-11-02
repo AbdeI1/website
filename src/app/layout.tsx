@@ -7,9 +7,6 @@ import { CssBaseline } from "@mui/material";
 import "@/css/globals.css";
 import theme from "@/theme";
 
-import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
-
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -30,11 +27,7 @@ export default function RootLayout({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <html lang="en" className={roboto.className}>
-          <body>
-            {/* <Header /> */}
-            {children}
-            {/* <Footer /> */}
-          </body>
+          <body>{children}</body>
         </html>
       </ThemeProvider>
     </AppRouterCacheProvider>
