@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "gh-pages -d out --remote build --cname mokbel.dev --nojekyll"
+    "deploy": "next build && gh-pages -d out --remote build --cname mokbel.dev --nojekyll"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",

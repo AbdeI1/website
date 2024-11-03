@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const TypeWriter: typeof Typography = ({ ...props }) => {
   const text = props.children as string;
@@ -39,21 +39,26 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
   }, [text]);
 
   return (
-    <Typography className="flex justify-center" {...props}>
-      {text.slice(0, index.i) + index.typo}
-      <Box
-        sx={{
-          marginLeft: 2,
-          width: "0.1em",
-          height: "1em",
-          bgcolor: "primary.main",
+    <Typography
+      component="div"
+      className="text-center"
+      {...props}
+      sx={{
+        width: "100%",
+        "::after": {
+          content: '"|"',
+          fontSize: "82%",
+          position: "top",
+          fontWeight: "bold",
           "@keyframes blink": {
             from: { opacity: 0 },
             "50%": { opacity: 1 },
           },
           animation: "blink 500ms infinite step-end",
-        }}
-      />
+        },
+      }}
+    >
+      {text.slice(0, index.i) + index.typo}
     </Typography>
   );
 };
