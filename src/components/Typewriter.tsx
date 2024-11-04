@@ -47,9 +47,8 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
         width: "100%",
         "::after": {
           content: '"|"',
-          fontSize: "82%",
-          position: "top",
-          fontWeight: "bold",
+          fontSize: "1.1em",
+          fontWeight: "700",
           "@keyframes blink": {
             from: { opacity: 0 },
             "50%": { opacity: 1 },
