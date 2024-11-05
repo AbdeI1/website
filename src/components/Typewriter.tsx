@@ -21,9 +21,9 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
             typo = "";
           } else if (i > 0 && typo === "" && Math.random() < 0.1) {
             timeout = setTimeout(type, Math.random() * 100 + 380);
-            let char = Array.from(characters.difference(new Set(text[i])))[
-              Math.floor(Math.random() * 25)
-            ];
+            let char = Array.from(
+              characters.difference(new Set(text[i].toUpperCase()))
+            )[Math.floor(Math.random() * 25)];
             if (text[i] === text[i].toLowerCase()) char = char.toLowerCase();
             typo = char;
           } else {
