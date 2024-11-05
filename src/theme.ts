@@ -1,16 +1,7 @@
 "use client";
-import { styled, createTheme } from "@mui/material/styles";
+import { responsiveFontSizes, createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 400,
-      md: 650,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
+let theme = createTheme({
   colorSchemes: {
     dark: true,
   },
@@ -19,15 +10,6 @@ const theme = createTheme({
   },
 });
 
-const Body = styled("body")(({ theme }) => ({
-  root: {
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 32,
-    },
-    [theme.breakpoints.down("md")]: {
-      fontSize: 64,
-    }
-  }
-}))
+theme = responsiveFontSizes(theme);
 
-export { theme, Body };
+export { theme };

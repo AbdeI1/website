@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -25,9 +25,8 @@ const links = [
 ];
 
 export default function Home() {
-
   return (
-    <Stack spacing='2em' className="h-screen justify-center">
+    <Stack spacing={8} className="h-screen justify-center">
       <TypeWriter
         variant="h1"
         color="primary"
@@ -35,11 +34,8 @@ export default function Home() {
       >
         Abdelrahman Mokbel
       </TypeWriter>
-      <Stack
-        direction="row"
-        spacing='2em'
-        className="justify-center"
-      >
+
+      <Stack direction="row" spacing={4} className="justify-center">
         {links.map(({ Icon, link }, index) => (
           <Button
             disableElevation
@@ -53,7 +49,9 @@ export default function Home() {
               bgcolor: "transparent",
             }}
           >
-            <Icon sx={{ fontSize: '6em' }} />
+            <Typography variant="h1">
+              <Icon fontSize="inherit" />
+            </Typography>
           </Button>
         ))}
       </Stack>
