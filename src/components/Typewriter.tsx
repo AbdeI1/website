@@ -34,7 +34,7 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
         return { i, typo };
       });
     };
-    type();
+    timeout = setTimeout(type, 250);
     return () => clearTimeout(timeout);
   }, [text]);
 

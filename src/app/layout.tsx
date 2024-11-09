@@ -16,7 +16,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "mokbel.dev",
-  description: "Abdelrahman Mokbel, Software Develer.",
+  description: "Abdelrahman Mokbel, Software Developer.",
 };
 
 export default function RootLayout({
