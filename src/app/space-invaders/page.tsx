@@ -15,6 +15,7 @@ import {
   ShaderPass,
   UnrealBloomPass,
 } from "three/examples/jsm/Addons.js";
+import { OrbitControls } from "@react-three/drei";
 
 const BloomPipeline = () => {
   const { gl: renderer, scene, camera } = useThree();
@@ -26,9 +27,9 @@ const BloomPipeline = () => {
 
   const bloomPass = new UnrealBloomPass(
     new Vector2(window.innerWidth, window.innerHeight),
-    0.3,
+    1,
     0.1,
-    0.2
+    0
   );
 
   const bloomComposer = new EffectComposer(renderer);
@@ -102,11 +103,14 @@ export default function SpaceInvaders() {
   bloomLayer.enable(1);
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
-      <ambientLight intensity={5} />
+      <ambientLight intensity={1} />
+      <directionalLight color="white" intensity={1} position={[1, 1, 1]} />
+      <directionalLight color="white" intensity={1} />
       <BloomPipeline />
+      <OrbitControls />
       <mesh layers={bloomLayer} scale={0.5}>
-        <icosahedronGeometry args={[1, 15]} />
-        <meshBasicMaterial color="red" />
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshPhongMaterial color="#60efff" />
       </mesh>
     </Canvas>
   );
