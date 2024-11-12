@@ -1,6 +1,7 @@
 "use client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
+  Color,
   Layers,
   Material,
   Mesh,
@@ -27,7 +28,7 @@ const BloomPipeline = () => {
 
   const bloomPass = new UnrealBloomPass(
     new Vector2(window.innerWidth, window.innerHeight),
-    1,
+    0.5,
     0.1,
     0
   );
@@ -98,20 +99,41 @@ const BloomPipeline = () => {
   return <></>;
 };
 
-export default function SpaceInvaders() {
+const Star = ({ position, scale, color }) => {
   const bloomLayer = new Layers();
   bloomLayer.enable(1);
   return (
+    <mesh layers={bloomLayer} scale={scale} position={position}>
+      <sphereGeometry args={[1, 32, 32]} />
+      <meshPhongMaterial color={color} />
+    </mesh>
+  );
+};
+
+// #60efff
+
+export default function SpaceInvaders() {
+  return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
-      <ambientLight intensity={1} />
-      <directionalLight color="white" intensity={1} position={[1, 1, 1]} />
-      <directionalLight color="white" intensity={1} />
+      <ambientLight intensity={2} />
       <BloomPipeline />
       <OrbitControls />
-      <mesh layers={bloomLayer} scale={0.5}>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshPhongMaterial color="#60efff" />
-      </mesh>
+      {Array.from({ length: 500 }).map((_, i) => (
+        <Star
+          key={i}
+          scale={Math.random() * 0.02 + 0.01}
+          position={[
+            Math.random() * 20 - 10,
+            Math.random() * 10 - 5,
+            Math.random() * 10 - 10,
+          ]}
+          color={[
+            Math.random() * 0.5 + 0.5,
+            Math.random() * 0.5 + 0.5,
+            Math.random() * 0.5 + 0.5,
+          ]}
+        />
+      ))}
     </Canvas>
   );
 }
