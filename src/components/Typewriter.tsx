@@ -49,7 +49,7 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
           content: '"|"',
           fontWeight: "700",
           display: "inline-block",
-          marginLeft: "-0.5em",
+          marginLeft: "-0.75em",
           transform: "translate(0.5em)",
           "@keyframes blink": {
             from: { opacity: 0 },
