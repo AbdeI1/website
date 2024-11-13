@@ -8,6 +8,7 @@ import {
   MeshBasicMaterial,
   ShaderMaterial,
   Vector2,
+  Vector3,
 } from "three";
 import {
   EffectComposer,
@@ -17,6 +18,7 @@ import {
   UnrealBloomPass,
 } from "three/examples/jsm/Addons.js";
 import { OrbitControls } from "@react-three/drei";
+import { useMemo, useRef } from "react";
 
 const BloomPipeline = () => {
   const { gl: renderer, scene, camera } = useThree();
@@ -94,44 +96,67 @@ const BloomPipeline = () => {
       }
     });
     finalComposer.render();
-  }, 1);
+  }, 2);
 
   return <></>;
 };
 
-const Star = ({ position, scale, color }) => {
+const Star = ({
+  position = new Vector3(0, 0, 0),
+  velocity = new Vector3(0, 0, 0),
+  scale = 1,
+  color = new Color(1, 1, 1),
+}: {
+  position?: Vector3;
+  velocity?: Vector3;
+  scale?: number;
+  color?: Color;
+}) => {
+  const star = useRef<Mesh>(null!);
+
+  useFrame((state, delta) => {
+    star.current.position.x += velocity.x * delta;
+    star.current.position.y += velocity.y * delta;
+    if (star.current.position.x < -10) star.current.position.x = 10;
+    if (star.current.position.x > 10) star.current.position.x = -10;
+    if (star.current.position.y < -5) star.current.position.y = 5;
+    if (star.current.position.y > 5) star.current.position.y = -5;
+  });
+
   const bloomLayer = new Layers();
   bloomLayer.enable(1);
   return (
-    <mesh layers={bloomLayer} scale={scale} position={position}>
+    <mesh ref={star} layers={bloomLayer} scale={scale} position={position}>
       <sphereGeometry args={[1, 32, 32]} />
       <meshPhongMaterial color={color} />
     </mesh>
   );
 };
 
-// #60efff
-
 export default function SpaceInvaders() {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
       <ambientLight intensity={2} />
       <BloomPipeline />
-      <OrbitControls />
       {Array.from({ length: 500 }).map((_, i) => (
         <Star
           key={i}
           scale={Math.random() * 0.02 + 0.01}
-          position={[
-            Math.random() * 20 - 10,
-            Math.random() * 10 - 5,
-            Math.random() * 10 - 10,
-          ]}
-          color={[
-            Math.random() * 0.5 + 0.5,
-            Math.random() * 0.5 + 0.5,
-            Math.random() * 0.5 + 0.5,
-          ]}
+          position={
+            new Vector3(Math.random() * 20 - 10, Math.random() * 10 - 5, 0)
+          }
+          velocity={new Vector3(
+            Math.random() * 0.5 - 0.25,
+            Math.random() * 0.5 - 0.25,
+            0
+          ).multiplyScalar(2)}
+          color={
+            new Color(
+              Math.random() * 0.5 + 0.7,
+              Math.random() * 0.5 + 0.7,
+              Math.random() * 0.5 + 0.7
+            )
+          }
         />
       ))}
     </Canvas>
