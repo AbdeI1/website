@@ -1,6 +1,7 @@
-import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Color, Mesh, Vector3 } from "three";
+
+import { useFrame } from "@react-three/fiber";
 
 const Star = ({
   position = new Vector3(0, 0, 0),

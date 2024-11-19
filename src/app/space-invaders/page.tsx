@@ -1,15 +1,20 @@
 "use client";
-import { Canvas } from "@react-three/fiber";
+
 import { Color, Vector3 } from "three";
+
+import { Canvas } from "@react-three/fiber";
 
 import { BloomPipeline } from "./components/BloomPipeline";
 import { Star } from "./components/Star";
+import { Ship } from "./components/Ship";
 
 export default function SpaceInvaders() {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
       <ambientLight intensity={2} />
+      <directionalLight color="white" intensity={1} position={[0, 0, 1]} />
       <BloomPipeline size={3} />
+      <Ship />
       {Array.from({ length: 500 }).map((_, i) => (
         <Star
           key={i}
