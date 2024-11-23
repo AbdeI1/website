@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { Euler, Mesh, Vector3 } from "three";
+import { useEffect, useRef } from "react";
+import { Quaternion, Mesh, Vector3, Euler } from "three";
 
 import { useFrame } from "@react-three/fiber";
 
@@ -10,12 +10,21 @@ const Laser = ({
 }) => {
   const laser = useRef<Mesh>(null!);
 
+  useEffect(() => {
+    laser.current.rotateX(-Math.PI / 2);
+  });
+
   useFrame((state, delta) => {
     laser.current.position.addScaledVector(
       new Vector3(state.pointer.x, state.pointer.y, 0),
       delta * -1
     );
-    laser.current.translateZ(delta * 10);
+    // laser.current.rotateX(Math.PI / 2);
+    laser.current.translateY(delta * 1);
+
+    // laser.current.position.set(state.pointer.x * 7, state.pointer.y * 4, 0);
+
+    console.log(laser.current.position);
 
     if (
       laser.current.position.x < -10 ||
@@ -27,13 +36,8 @@ const Laser = ({
   });
 
   return (
-    <mesh
-      ref={laser}
-      scale={0.05}
-      position={position}
-      rotation={rotation}
-      up={[0, 0, 1]}
-    >
+    <mesh ref={laser} scale={0.05} position={position} rotation={rotation}>
+      <axesHelper args={[5]} />
       <cylinderGeometry args={[0.2, 0.2, 15]}></cylinderGeometry>
       <meshStandardMaterial
         color={[0, 1, 0]}

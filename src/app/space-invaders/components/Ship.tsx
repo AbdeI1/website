@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Euler, Mesh, Vector3 } from "three";
+import { Euler, Mesh, Quaternion, Vector3 } from "three";
 
 import { useFrame, useLoader } from "@react-three/fiber";
 
@@ -16,7 +16,6 @@ const Ship = () => {
   const gltf = useLoader(GLTFLoader, "shipModel/scene.txt");
 
   window.addEventListener("click", () => {
-    console.log(ship.current.rotation);
     setLasers([
       ...lasers,
       {
@@ -36,6 +35,7 @@ const Ship = () => {
         <Laser key={i} {...props} />
       ))}
       <mesh ref={ship} position={[0, 0, 1]} up={[0, 0, 1]} scale={0.4}>
+        <axesHelper args={[5]} />
         <primitive object={gltf.scene} />
       </mesh>
     </>

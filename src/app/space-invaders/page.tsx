@@ -1,6 +1,6 @@
 "use client";
 
-import { Color, Vector3 } from "three";
+import { Color, PerspectiveCamera, Vector3 } from "three";
 
 import { Canvas } from "@react-three/fiber";
 
@@ -10,7 +10,15 @@ import { Ship } from "./components/Ship";
 
 export default function SpaceInvaders() {
   return (
-    <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
+    <Canvas
+      style={{ height: "100vh", width: "100vw", background: "black" }}
+      camera={{
+        fov: 1,
+        near: 0.1,
+        far: 1000,
+        position: [0, 0, 500],
+      }}
+    >
       <ambientLight intensity={2} />
       <directionalLight color="white" intensity={1} position={[0, 0, 1]} />
       <BloomPipeline size={3} />
