@@ -1,12 +1,13 @@
 "use client";
 
-import { Color, PerspectiveCamera, Vector3 } from "three";
+import { Color, Vector3 } from "three";
 
 import { Canvas } from "@react-three/fiber";
 
 import { BloomPipeline } from "./components/BloomPipeline";
 import { Star } from "./components/Star";
 import { Ship } from "./components/Ship";
+import { Mines } from "./components/Mines";
 
 export default function SpaceInvaders() {
   return (
@@ -23,6 +24,7 @@ export default function SpaceInvaders() {
       <directionalLight color="white" intensity={1} position={[0, 0, 1]} />
       <BloomPipeline size={3} />
       <Ship />
+      <Mines />
       {Array.from({ length: 500 }).map((_, i) => (
         <Star
           key={i}
