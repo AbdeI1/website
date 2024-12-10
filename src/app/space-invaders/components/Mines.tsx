@@ -1,9 +1,10 @@
 import { useFrame } from "@react-three/fiber";
+import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useRef } from "react";
-import { Group, Mesh } from "three";
+import { Group, Mesh, Vector3 } from "three";
 
 const Mines = () => {
-  const mine = useRef<Mesh>(null!);
+  const mine = useRef<RapierRigidBody>(null!);
   const mines = useRef<Group>(null!);
 
   const spawnInterval = 5;
@@ -26,6 +27,10 @@ const Mines = () => {
     }
 
     mines.current.children.forEach((mine) => {
+      mine.position.addScaledVector(
+        new Vector3(state.pointer.x, state.pointer.y, 0),
+        delta * -1
+      );
       mine.rotation.z += delta;
       mine.userData.timer += delta;
 
@@ -35,17 +40,18 @@ const Mines = () => {
 
   return (
     <group>
-      <mesh
-        ref={mine}
-        visible={false}
-        position={[100, 100, 100]}
-        userData={{
-          timer: 0,
-        }}
-      >
-        <octahedronGeometry />
-        <meshStandardMaterial />
-      </mesh>
+      <RigidBody ref={mine}>
+        <mesh
+          visible={false}
+          position={[100, 100, 100]}
+          userData={{
+            timer: 0,
+          }}
+        >
+          <octahedronGeometry />
+          <meshStandardMaterial />
+        </mesh>
+      </RigidBody>
       <group ref={mines}></group>
     </group>
   );

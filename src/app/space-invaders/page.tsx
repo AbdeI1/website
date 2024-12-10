@@ -8,6 +8,8 @@ import { BloomPipeline } from "./components/BloomPipeline";
 import { Star } from "./components/Star";
 import { Ship } from "./components/Ship";
 import { Mines } from "./components/Mines";
+import { Physics } from "@react-three/rapier";
+import { Suspense } from "react";
 
 export default function SpaceInvaders() {
   return (
@@ -23,8 +25,12 @@ export default function SpaceInvaders() {
       <ambientLight intensity={2} />
       <directionalLight color="white" intensity={1} position={[0, 0, 1]} />
       <BloomPipeline size={3} />
-      <Ship />
-      <Mines />
+      <Suspense>
+        <Physics gravity={[0, 0, 0]} debug>
+          <Ship />
+          <Mines />
+        </Physics>
+      </Suspense>
       {Array.from({ length: 500 }).map((_, i) => (
         <Star
           key={i}

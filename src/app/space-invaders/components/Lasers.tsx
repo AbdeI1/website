@@ -1,5 +1,5 @@
 import { MutableRefObject, useRef } from "react";
-import { Mesh, Vector3, Group } from "three";
+import { Mesh, Vector3, Group, Raycaster } from "three";
 
 import { useFrame } from "@react-three/fiber";
 
@@ -22,6 +22,13 @@ const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
         delta * -1
       );
       l.translateY(delta * 10);
+      // const r = new Raycaster();
+      // const worldY = new Vector3();
+      // l.matrixWorld.extractBasis(new Vector3(), worldY, new Vector3());
+      // r.set(l.getWorldPosition(new Vector3()), worldY);
+      // let i = r.intersectObjects(state.scene.children);
+      // console.log(i);
+      // i.forEach((o) => o.object.parent?.remove(o.object));
       if (
         l.position.x < -10 ||
         l.position.x > 10 ||
