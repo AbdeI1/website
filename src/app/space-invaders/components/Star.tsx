@@ -11,20 +11,30 @@ const Star = ({
 }) => {
   const star = useRef<Mesh>(null!);
 
-  useFrame((state, delta) => {
-    delta = Math.min(delta, 0.1);
+  useFrame(
+    (
+      {
+        pointer,
+        scene: {
+          userData: { shipSpeed },
+        },
+      },
+      delta
+    ) => {
+      delta = Math.min(delta, 0.1);
 
-    star.current.position.addScaledVector(
-      new Vector3(state.pointer.x, state.pointer.y, 0),
-      delta * scale * -300
-    );
-    star.current.position.addScaledVector(velocity, delta);
+      star.current.position.addScaledVector(
+        new Vector3(pointer.x, pointer.y, 0),
+        delta * scale * shipSpeed * -300
+      );
+      star.current.position.addScaledVector(velocity, delta);
 
-    if (star.current.position.x < -10) star.current.position.x = 10;
-    if (star.current.position.x > 10) star.current.position.x = -10;
-    if (star.current.position.y < -5) star.current.position.y = 5;
-    if (star.current.position.y > 5) star.current.position.y = -5;
-  });
+      if (star.current.position.x < -10) star.current.position.x = 10;
+      if (star.current.position.x > 10) star.current.position.x = -10;
+      if (star.current.position.y < -5) star.current.position.y = 5;
+      if (star.current.position.y > 5) star.current.position.y = -5;
+    }
+  );
 
   return (
     <mesh ref={star} scale={scale} position={position}>

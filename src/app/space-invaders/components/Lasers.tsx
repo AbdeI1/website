@@ -1,7 +1,7 @@
 import { MutableRefObject, useRef } from "react";
 import { Mesh, Vector3, Group, Raycaster } from "three";
 
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
   const laser = useRef<Mesh>(null!);
@@ -15,29 +15,46 @@ const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
     lasers.current.add(l);
   });
 
-  useFrame((state, delta) => {
-    lasers.current.children.forEach((l) => {
-      l.position.addScaledVector(
-        new Vector3(state.pointer.x, state.pointer.y, 0),
-        delta * -1
-      );
-      l.translateY(delta * 10);
-      // const r = new Raycaster();
-      // const worldY = new Vector3();
-      // l.matrixWorld.extractBasis(new Vector3(), worldY, new Vector3());
-      // r.set(l.getWorldPosition(new Vector3()), worldY);
-      // let i = r.intersectObjects(state.scene.children);
-      // console.log(i);
-      // i.forEach((o) => o.object.parent?.remove(o.object));
-      if (
-        l.position.x < -10 ||
-        l.position.x > 10 ||
-        l.position.y < -5 ||
-        l.position.y > 5
-      )
-        l.parent?.remove(l);
-    });
-  });
+  const { scene } = useThree();
+  scene.userData.lasersRef = lasers;
+
+  useFrame(
+    (
+      {
+        pointer,
+        scene: {
+          userData: {
+            minesRef: { current: mines },
+            shipSpeed,
+          },
+        },
+      },
+      delta
+    ) => {
+      lasers.current.children.forEach((l) => {
+        l.position.addScaledVector(
+          new Vector3(pointer.x, pointer.y, 0),
+          delta * shipSpeed * -1
+        );
+        l.translateY(delta * 10);
+        const r = new Raycaster();
+        const worldY = new Vector3();
+        l.matrixWorld.extractBasis(new Vector3(), worldY, new Vector3());
+        r.set(l.getWorldPosition(new Vector3()), worldY);
+        console.log(mines);
+        const i = r.intersectObjects(mines.children);
+        console.log(i);
+        i.forEach((o) => o.object.parent?.remove(o.object));
+        if (
+          l.position.x < -10 ||
+          l.position.x > 10 ||
+          l.position.y < -5 ||
+          l.position.y > 5
+        )
+          l.parent?.remove(l);
+      });
+    }
+  );
 
   return (
     <group>

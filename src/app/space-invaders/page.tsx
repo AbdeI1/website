@@ -1,6 +1,6 @@
 "use client";
 
-import { Color, Vector3 } from "three";
+import { Color, Scene, Vector3 } from "three";
 
 import { Canvas } from "@react-three/fiber";
 
@@ -21,6 +21,17 @@ export default function SpaceInvaders() {
         far: 1000,
         position: [0, 0, 500],
       }}
+      scene={(() => {
+        const s = new Scene();
+        s.userData = {
+          shipRef: null!,
+          minesRef: null!,
+          lasersRef: null!,
+
+          shipSpeed: 1,
+        };
+        return s;
+      })()}
     >
       <ambientLight intensity={2} />
       <directionalLight color="white" intensity={1} position={[0, 0, 1]} />
@@ -39,8 +50,8 @@ export default function SpaceInvaders() {
             new Vector3(Math.random() * 20 - 10, Math.random() * 10 - 5, 0)
           }
           velocity={new Vector3(
-            Math.random() * 0.5 - 0.25,
-            Math.random() * 0.5 - 0.25,
+            Math.random() * 0.01 - 0.005,
+            Math.random() * 0.01 - 0.005,
             0
           ).multiplyScalar(2)}
           color={
