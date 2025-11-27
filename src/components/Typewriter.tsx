@@ -11,7 +11,7 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    const characters = new Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const type = () => {
       clearTimeout(timeout);
       setIndex(({ i, typo }) => {
@@ -21,9 +21,8 @@ const TypeWriter: typeof Typography = ({ ...props }) => {
             typo = "";
           } else if (i > 0 && typo === "" && Math.random() < 0.1) {
             timeout = setTimeout(type, Math.random() * 100 + 380);
-            let char = Array.from(
-              characters.difference(new Set(text[i].toUpperCase()))
-            )[Math.floor(Math.random() * 25)];
+            let char = characters[Math.floor(Math.random() * 25)];
+            if (char === text[i].toUpperCase()) char = 'Z';
             if (text[i] === text[i].toLowerCase()) char = char.toLowerCase();
             typo = char;
           } else {
