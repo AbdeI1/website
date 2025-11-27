@@ -10,9 +10,9 @@
     "deploy": "next build && gh-pages -d out --remote build --cname mokbel.dev --nojekyll"
   },
   "dependencies": {
-    "@emotion/cache": "^11.13.1",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.2.9",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
