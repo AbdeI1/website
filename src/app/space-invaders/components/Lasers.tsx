@@ -2,6 +2,7 @@ import { MutableRefObject, useRef } from "react";
 import { Mesh, Vector3, Group, Raycaster } from "three";
 
 import { useFrame, useThree } from "@react-three/fiber";
+import { RigidBody } from "@react-three/rapier";
 
 const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
   const laser = useRef<Mesh>(null!);
@@ -37,21 +38,21 @@ const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
           delta * shipSpeed * -1
         );
         l.translateY(delta * 10);
-        const r = new Raycaster();
-        const worldY = new Vector3();
-        l.matrixWorld.extractBasis(new Vector3(), worldY, new Vector3());
-        r.set(l.getWorldPosition(new Vector3()), worldY);
-        console.log(mines);
-        const i = r.intersectObjects(mines.children);
-        console.log(i);
-        i.forEach((o) => o.object.parent?.remove(o.object));
-        if (
-          l.position.x < -10 ||
-          l.position.x > 10 ||
-          l.position.y < -5 ||
-          l.position.y > 5
-        )
-          l.parent?.remove(l);
+        // const r = new Raycaster();
+        // const worldY = new Vector3();
+        // l.matrixWorld.extractBasis(new Vector3(), worldY, new Vector3());
+        // r.set(l.getWorldPosition(new Vector3()), worldY);
+        // console.log(mines);
+        // const i = r.intersectObjects(mines.children);
+        // console.log(i);
+        // i.forEach((o) => o.object.parent?.remove(o.object));
+        // if (
+        //   l.position.x < -10 ||
+        //   l.position.x > 10 ||
+        //   l.position.y < -5 ||
+        //   l.position.y > 5
+        // )
+        //   l.parent?.remove(l);
       });
     }
   );
@@ -66,7 +67,9 @@ const Lasers = ({ ship }: { ship: MutableRefObject<Mesh> }) => {
           toneMapped={false}
         />
       </mesh>
-      <group ref={lasers}></group>
+      <RigidBody>
+        <group ref={lasers}></group>
+      </RigidBody>
     </group>
   );
 };

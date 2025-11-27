@@ -1,10 +1,12 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useRef } from "react";
-import { Group, Mesh, Vector3 } from "three";
+import { InstancedRigidBodies, RapierRigidBody, vec3, quat, euler, RigidBody } from "@react-three/rapier";
+import { RefObject, useMemo, useRef, useState, createRef } from "react";
+import { Euler, Group, Mesh, Vector3 } from "three";
 
 const Mines = () => {
-  const mine = useRef<Mesh>(null!);
-  const mines = useRef<Group>(null!);
+  // const mine = useRef<Mesh>(null!);
+
+  const [mines, setMines] = useState<any[]>([]);
 
   const spawnInterval = 5;
 
@@ -23,37 +25,56 @@ const Mines = () => {
       },
       delta
     ) => {
+
+      const remove = new Set()
+      mines.forEach(m => {
+        if (m.ref.current.userData == undefined) m.ref.current.userData = { timer: 0 };
+        m.ref.current.userData.timer += delta;
+        if (m.ref.current.userData.timer >= 15) remove.add(m.key)
+      })
+
+      let refreshMines = remove.size > 0;
+      let newMines = mines.filter(m => !remove.has(m.key))
+
       spawnTimer += delta;
 
       if (spawnTimer > spawnInterval) {
-        const m = mine.current.clone();
-        m.position.set(0, 0, 0);
-        m.rotation.z =
-          pointer.angle() + ((Math.random() * Math.PI) / 3 - Math.PI / 6);
-        m.translateX(5);
-        m.visible = true;
-        mines.current.add(m);
-
+        refreshMines = true;
+        newMines.push({
+          key: crypto.randomUUID(),
+          ref: createRef<RapierRigidBody>()
+        });
         spawnTimer = 0;
       }
+      console.log(newMines.length)
 
-      mines.current.children.forEach((mine) => {
-        mine.position.addScaledVector(
-          new Vector3(pointer.x, pointer.y, 0),
-          delta * shipSpeed * -1
-        );
-        mine.position.addScaledVector(mine.position, delta * 0.1 * -1);
-        mine.rotation.z += delta;
-        mine.userData.timer += delta;
-
-        if (mine.userData.timer >= 15) mine.parent?.remove(mine);
-      });
+      if (refreshMines) setMines(newMines);
     }
   );
 
   return (
     <group>
-      <mesh
+      {
+        mines.map(m => 
+          <RigidBody key={m.key} ref={m.ref} type="fixed">
+            <mesh>
+              <octahedronGeometry />
+              <meshStandardMaterial />
+            </mesh>
+          </RigidBody>
+        )
+      }
+      {/* <InstancedRigidBodies
+        ref={rigidBodies}
+        type="fixed"
+        instances={mines}
+      >
+        <instancedMesh args={[null!, null!, 20]}>
+          <octahedronGeometry />
+          <meshStandardMaterial />
+        </instancedMesh>
+      </InstancedRigidBodies> */}
+      {/* <mesh
         ref={mine}
         visible={true}
         position={[100, 100, 100]}
@@ -64,7 +85,19 @@ const Mines = () => {
         <octahedronGeometry />
         <meshStandardMaterial />
       </mesh>
-      <group ref={mines}></group>
+      <RigidBody>
+        <mesh
+          visible={true}
+          position={[0, 0, 0]}
+          userData={{
+            timer: 0,
+          }}
+        >
+          <octahedronGeometry />
+          <meshStandardMaterial />
+        </mesh>
+        <group ref={mines}></group>
+      </RigidBody> */}
     </group>
   );
 };
