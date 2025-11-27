@@ -3,7 +3,7 @@ import { KernelSize } from "postprocessing";
 
 const BloomPipeline = ({
   size = KernelSize.MEDIUM,
-  intensity = 1,
+  intensity = 30,
   threshold = 1,
 }) => (
   <EffectComposer>
